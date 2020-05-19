@@ -69,7 +69,7 @@ extension LinkedList: RangeReplaceableCollection {
         insert(newElement, at: endIndex)
     }
     
-    /// - Complexity: O(m + n) where m = S.count
+    /// - Complexity: O(n + `newElements.count`)
     public mutating func append<S: Sequence>(
         contentsOf newElements: __owned S
     ) where S.Element == Element {
