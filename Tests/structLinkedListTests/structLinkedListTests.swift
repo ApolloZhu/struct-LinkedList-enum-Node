@@ -81,6 +81,13 @@ final class LinkedListTests: XCTestCase {
 
         list.removeAll { $0.isMultiple(of: 2) }
         XCTAssertEqual(list, [-1, -3] as LinkedList)
+
+        list.remove(at: 1)
+        XCTAssertEqual(list, [-1] as LinkedList)
+
+        list.insert(1, at: 1)
+        list.insert(0, at: 1)
+        XCTAssertEqual(list, [-1, 0, 1] as LinkedList)
     }
 
     static var allTests = [

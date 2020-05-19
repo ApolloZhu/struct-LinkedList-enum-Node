@@ -34,5 +34,5 @@ public struct LinkedList<Element> {
         - [ ] ...
  - [x] RangeReplaceableCollection
      - [ ] Benchmark, since default implementations are of real nightmare
-- [ ] Try to be like Array
-    - [ ] Slices like [ArraySlice](https://github.com/apple/swift/blob/master/stdlib/public/core/ArraySlice.swift)?
+- [x] Try to be like Array
+    - [ ] Implement slices like [ArraySlice](https://github.com/apple/swift/blob/master/stdlib/public/core/ArraySlice.swift)?
