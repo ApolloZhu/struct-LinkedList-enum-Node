@@ -20,15 +20,19 @@ public struct LinkedList<Element> {
     ```
     Declaring conformance to the CVarArg protocol for types defined outside the standard library is not supported.
     ```
- - [ ] Decodable when Element conforms to Decodable.
- - [ ] Encodable when Element conforms to Encodable.
- - [ ] Equatable when Element conforms to Equatable.
+ - [x] Decodable when Element conforms to Decodable.
+ - [x] Encodable when Element conforms to Encodable.
+ - [x] Equatable when Element conforms to Equatable.
  - [x] ExpressibleByArrayLiteral
- - [ ] Hashable when Element conforms to Hashable.
+ - [x] Hashable when Element conforms to Hashable.
  - [x] MutableCollection
-    - [ ] Check Sequence conformance performance
-    - [ ] Check Collection conformance performance
-    - [ ] Check MutableCollection conformance performance
+    - [ ] Benchmark Sequence conformance performance
+    - [ ] Benchmark Collection conformance performance
+    - [ ] Benchmark MutableCollection conformance performance
     - [ ] Implement some methods that usually requires BidirectionalCollection
         - [x] reversed
- - [ ] RangeReplaceableCollection
+        - [ ] ...
+ - [x] RangeReplaceableCollection
+     - [ ] Benchmark, since default implementations are of real nightmare
+- [ ] Try to be like Array
+    - [ ] Slices like [ArraySlice](https://github.com/apple/swift/blob/master/stdlib/public/core/ArraySlice.swift)?

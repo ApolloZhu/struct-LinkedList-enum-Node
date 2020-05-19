@@ -2,7 +2,7 @@ extension LinkedList: CustomStringConvertible, CustomDebugStringConvertible {
     public var description: String {
         return "[\(head?.description ?? "")]"
     }
-
+    
     public var debugDescription: String {
         return "[\(head?.debugDescription ?? "")]"
     }
@@ -19,7 +19,7 @@ extension LinkedList.Node: CustomStringConvertible, CustomDebugStringConvertible
             return "\(value)"
         }
     }
-
+    
     internal var debugDescription: String {
         // Mimic _makeCollectionDescription from ArrayShared.swift
         var result = ""

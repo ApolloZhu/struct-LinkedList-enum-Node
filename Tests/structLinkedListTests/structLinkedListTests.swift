@@ -2,7 +2,7 @@ import XCTest
 @testable import structLinkedList
 
 final class LinkedListTests: XCTestCase {
-    func testExample() {
+    func testToString() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
@@ -20,7 +20,7 @@ final class LinkedListTests: XCTestCase {
          list.count
          list.reversed()
          for e in list {
-             print(e)
+         print(e)
          }
          list.reverse()
          list.append(-1)
@@ -45,7 +45,45 @@ final class LinkedListTests: XCTestCase {
          */
     }
 
+    func testCount() {
+        var list: LinkedList = [0,1,2,3,4,5,6,7,8,9]
+        XCTAssertEqual(list.count, 10)
+
+        list.reverse()
+        XCTAssertEqual(list.count, 10)
+
+        list.append(-1)
+        XCTAssertEqual(list.count, 11)
+
+        list.remove(at: 0)
+        XCTAssertEqual(list, [8,7,6,5,4,3,2,1,0,-1] as LinkedList)
+
+        list.removeSubrange(1...3)
+        XCTAssertEqual(list, [8,4,3,2,1,0,-1] as LinkedList)
+
+        list.replaceSubrange(2..<4, with: [5,6,7])
+        XCTAssertEqual(list, [8,4,5,6,7,1,0,-1] as LinkedList)
+
+        list += [-2,-3,-4]
+        XCTAssertEqual(list, [8,4,5,6,7,1,0,-1,-2,-3,-4] as LinkedList)
+
+        list = [1,2,3] + list
+        XCTAssertEqual(list, [1,2,3,8,4,5,6,7,1,0,-1,-2,-3,-4] as LinkedList)
+
+        list.insert(0, at: 0)
+        XCTAssertEqual(list, [0,1,2,3,8,4,5,6,7,1,0,-1,-2,-3,-4] as LinkedList)
+
+        list.insert(contentsOf: [8,9].lazy, at: 9)
+        XCTAssertEqual(list, [0,1,2,3,8,4,5,6,7,8,9,1,0,-1,-2,-3,-4] as LinkedList)
+
+        list.removeFirst(12)
+        XCTAssertEqual(list, [0,-1,-2,-3,-4] as LinkedList)
+
+        list.removeAll { $0.isMultiple(of: 2) }
+        XCTAssertEqual(list, [-1, -3] as LinkedList)
+    }
+
     static var allTests = [
-        ("testExample", testExample),
+        ("testExample", testToString),
     ]
 }

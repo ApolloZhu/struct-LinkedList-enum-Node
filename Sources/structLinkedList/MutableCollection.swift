@@ -18,7 +18,7 @@ extension LinkedList: MutableCollection {
             self.head = set(position, to: newValue, current: head)
         }
     }
-
+    
     private func set(_ i: Int, to newValue: Element, current: Node?) -> Node {
         guard let current = current else {
             guard i == 1 else {
