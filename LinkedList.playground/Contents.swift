@@ -126,14 +126,18 @@ extension LinkedList: MutableCollection {
     }
 }
 
-//  func reversed<T>(_ list: SinglyLinkedListNode<T>, previous: SinglyLinkedListNode<T>? = nil) -> SinglyLinkedListNode<T> {
-//      switch list {
-//      case let .value(v, next: next):
-//          let node = SinglyLinkedListNode<T>.value(v, next: previous)
-//          if let next = next {
-//              return reversed(next, previous: node)
-//          } else {
-//              return node
-//          }
-//      }
-//  }
+extension LinkedList {
+    mutating func reverse() {
+        guard let head = head, let next = head.next else { return }
+        self.head = reversed(next, previous: .value(head.value))
+    }
+
+    private func reversed(_ node: Node, previous: Node) -> Node {
+        let now = Node.node(value: node.value, next: previous)
+        if let next = node.next {
+            return reversed(next, previous: now)
+        } else {
+            return now
+        }
+    }
+}
