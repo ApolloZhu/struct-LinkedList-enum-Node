@@ -35,10 +35,10 @@ extension LinkedList: RangeReplaceableCollection {
         
         switch i {
         case replacedRange.lowerBound:
-            // MARK: Step 1: found the insertion point, recurse until part 2
+            // MARK: Step 2: found the insertion point, recurse until part 2
             // current is the part 2 head if there's nothing to remove
             let after = replacedRange.isEmpty ? current : recurseForNodeAfter()
-            // MARK: Step 4: reversely append newElements in front of part 2
+            // MARK: Step 5: reversely append newElements in front of part 2
             guard let first = reversed.first else {
                 return after
             }
@@ -48,17 +48,17 @@ extension LinkedList: RangeReplaceableCollection {
             }
             return newElementHead
         case replacedRange:
-            // MARK: Step 2: skip this current value/node until part 2 begins
+            // MARK: Step 3: skip this current value/node until part 2 begins
             return recurseForNodeAfter()
         case replacedRange.upperBound...:
-            // MARK: Step 3: get the part after the replacement range
+            // MARK: Step 4: get the part after the replacement range
             // we don't need to validate the indices/current node
             // since we reached here no problem
             return current
         default: // case ..<replacedRange.lowerBound:
-            // MARK: Step 0: recurse until insertion point
+            // MARK: Step 1: recurse until insertion point
             return recurseForNodeAfter { current, after in
-                // MARK: Step 5: insert back the part before insertion point
+                // MARK: Step 6: insert back the part before insertion point
                 .auto(value: current.value, next: after)
             }
         }
