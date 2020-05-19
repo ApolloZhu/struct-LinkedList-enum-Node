@@ -1,6 +1,6 @@
 # `struct LinkedList` `enum Node`
 
-LinkedList in Swift, but you get a value type instead. What a terrible idea.
+Singly linked list in Swift, but you get a value type instead. What a terrible idea.
 
 ```swift
 public struct LinkedList<Element> {
@@ -10,3 +10,22 @@ public struct LinkedList<Element> {
     }
 }
 ```
+
+## Road Map
+
+ - [ ] CustomDebugStringConvertible
+ - [ ] CustomReflectable
+ - [x] CustomStringConvertible
+ - [ ] CVarArg
+ - [ ] Decodable when Element conforms to Decodable.
+ - [ ] Encodable when Element conforms to Encodable.
+ - [ ] Equatable when Element conforms to Equatable.
+ - [x] ExpressibleByArrayLiteral
+ - [ ] Hashable when Element conforms to Hashable.
+ - [x] MutableCollection
+    - [ ] Check Sequence conformance performance
+    - [ ] Check Collection conformance performance
+    - [ ] Check MutableCollection conformance performance
+    - [ ] Implement some methods that usually requires BidirectionalCollection
+        - [x] reversed
+ - [ ] RangeReplaceableCollection

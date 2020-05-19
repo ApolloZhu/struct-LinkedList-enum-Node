@@ -82,25 +82,9 @@ extension LinkedList: ExpressibleByArrayLiteral {
     }
 }
 
-// MARK: - Collection
+// MARK: - Sequence
 
-extension LinkedList: Collection {
-    public var startIndex: Int {
-        return 0
-    }
-
-    public var endIndex: Int {
-        return count
-    }
-
-    public func index(after i: Int) -> Int {
-        return i + 1
-    }
-
-    fileprivate func indexOutOfRange() -> Never {
-        fatalError("Index out of range")
-    }
-
+extension LinkedList {
     public struct Iterator: IteratorProtocol {
         private var current: Node?
 
@@ -119,6 +103,26 @@ extension LinkedList: Collection {
 
     public func makeIterator() -> Iterator {
         return Iterator(head: head)
+    }
+}
+
+// MARK: - Collection
+
+extension LinkedList: Collection {
+    public var startIndex: Int {
+        return 0
+    }
+
+    public var endIndex: Int {
+        return count
+    }
+
+    public func index(after i: Int) -> Int {
+        return i + 1
+    }
+
+    fileprivate func indexOutOfRange() -> Never {
+        fatalError("Index out of range")
     }
 }
 
