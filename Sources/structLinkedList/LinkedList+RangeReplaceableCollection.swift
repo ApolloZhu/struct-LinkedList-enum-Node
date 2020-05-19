@@ -5,7 +5,7 @@ extension LinkedList: RangeReplaceableCollection {
     ) where C.Element == Element {
         replaceSubrangeS(subrange, with: newElements)
     }
-
+    
     private mutating func replaceSubrangeS<S: Sequence>(
         _ subrange: Range<Int>,
         with newElements: __owned S
@@ -26,7 +26,7 @@ extension LinkedList: RangeReplaceableCollection {
                            current: head)
         self.count += reversed.count - subrange.count
     }
-
+    
     private func insert(reversed: [Element],
                         replacedRange: Range<Int>,
                         current: Node?, _ i: Int = 0) -> Node? {
@@ -40,7 +40,7 @@ extension LinkedList: RangeReplaceableCollection {
                 current: current.next, i + 1
             )
         }
-
+        
         switch i {
         case replacedRange.lowerBound:
             let after = replacedRange.isEmpty ? current : getNodeAfter()
@@ -74,12 +74,12 @@ extension LinkedList: RangeReplaceableCollection {
             }
         }
     }
-
+    
     /// - Complexity: O(n)
     public mutating func append(_ newElement: __owned Element) {
         insert(newElement, at: endIndex)
     }
-
+    
     /// - Complexity: O(m + n) where |S| = m and |self| = n
     public mutating func append<S: Sequence>(
         contentsOf newElements: __owned S
@@ -87,12 +87,12 @@ extension LinkedList: RangeReplaceableCollection {
         // The default implementation has O(m * n) complexity
         replaceSubrangeS(endIndex..<endIndex, with: newElements)
     }
-
+    
+    /// - Complexity: O(`lhs.count`)
     public static func + <Other: Sequence>(
         lhs: Other, rhs: Self
     ) -> Self where Element == Other.Element {
         var rhs = rhs
-        // This gives a minor improvement from O(lhs + rhs) to O(lhs)
         rhs.replaceSubrangeS(rhs.startIndex..<rhs.startIndex, with: lhs)
         return rhs
     }

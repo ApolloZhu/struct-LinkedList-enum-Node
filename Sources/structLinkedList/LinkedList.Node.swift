@@ -16,7 +16,7 @@ extension LinkedList.Node {
             }
         }
     }
-
+    
     internal var next: LinkedList.Node? {
         get {
             if case .node(_, next: let next) = self {

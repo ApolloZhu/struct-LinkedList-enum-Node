@@ -6,17 +6,8 @@
 //
 
 extension LinkedList: Equatable where Element: Equatable {
-    /// Returns a Boolean value indicating whether two linked lists
-    /// contain the same elements in the same order.
-    ///
-    /// You can use the equal-to operator (`==`) to compare any two linked list that store the same,
-    /// `Equatable`-conforming element type.
-    ///
-    /// - Parameters:
-    ///   - lhs: A linked list to compare.
-    ///   - rhs: Another linked list to compare.
     @inlinable
-    public static func ==(lhs: Self, rhs: Self) -> Bool {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
         guard lhs.count == rhs.count else {
             return false
         }
