@@ -68,11 +68,11 @@ extension LinkedList.Node: CustomStringConvertible {
 
 extension LinkedList: ExpressibleByArrayLiteral {
     public init(arrayLiteral elements: Element...) {
-        guard !elements.isEmpty else {
+        let reversed = elements.reversed()
+        guard let first = reversed.first else {
             return
         }
-        let reversed = elements.reversed()
-        var cur = Node.value(reversed.first!)
+        var cur = Node.value(first)
         for value in reversed.dropFirst() {
             cur = .node(value: value, next: cur)
         }
@@ -144,6 +144,8 @@ extension LinkedList: MutableCollection {
     }
 }
 
+// MARK: - Reverse
+
 extension LinkedList {
     public mutating func reverse() {
         guard let head = head, let next = head.next else { return }
@@ -160,4 +162,11 @@ extension LinkedList {
     }
 }
 
+extension LinkedList.Node {
+
+}
+
+// MARK: - Testing
+
 let list: LinkedList = [0, 1, 2, 3]
+list.reversed()
