@@ -1,8 +1,9 @@
-extension LinkedList {
-    /// Iterates over a linked list by following the link to ensure O(n) complexity iterations.
-    public struct Iterator: IteratorProtocol, Sequence {
+extension LinkedList: Sequence {
+    /// Iterates over a linked list by following the link to
+    /// ensure O(n) complexity iterations.
+    public struct Iterator: IteratorProtocol {
         private var current: Node?
-        
+
         public mutating func next() -> Element? {
             guard let current = current else {
                 return nil
@@ -10,12 +11,12 @@ extension LinkedList {
             defer { self.current = current.next }
             return current.value
         }
-        
+
         fileprivate init(head: Node?) {
             current = head
         }
     }
-    
+
     public func makeIterator() -> Iterator {
         return Iterator(head: head)
     }

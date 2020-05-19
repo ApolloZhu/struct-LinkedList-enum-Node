@@ -16,11 +16,17 @@ final class LinkedListTests: XCTestCase {
         XCTAssertEqual(list.description, "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]")
         XCTAssertEqual(list.debugDescription, "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]")
         /*
-         list.reversed()
          for e in list {
          print(e)
          }
          */
+    }
+
+    func testReverse() {
+        var characters: LinkedList<Character> = ["C", "a", "f", "é"]
+        XCTAssertEqual(characters.reversed(), ["é", "f", "a", "C"])
+        characters.reverse()
+        XCTAssertEqual(characters.description, "[é, f, a, C]")
     }
 
     func testSubscript() {

@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Apollo Zhu on 5/19/20.
-//
-
 extension LinkedList: Equatable where Element: Equatable {
     @inlinable
     public static func == (lhs: Self, rhs: Self) -> Bool {
