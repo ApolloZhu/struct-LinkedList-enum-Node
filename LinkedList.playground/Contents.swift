@@ -14,7 +14,7 @@ extension LinkedList.Node {
     fileprivate var value: Element {
         get {
             switch self {
-            case .node(let value, next: _):
+            case .node(let value, _):
                 return value
             case .value(let value):
                 return value
@@ -97,6 +97,26 @@ extension LinkedList: Collection {
 
     fileprivate func indexOutOfRange() -> Never {
         fatalError("Index out of range")
+    }
+
+    public struct Iterator: IteratorProtocol {
+        private var current: Node?
+
+        public mutating func next() -> Element? {
+            guard let current = current else {
+                return nil
+            }
+            defer { self.current = current.next }
+            return current.value
+        }
+
+        fileprivate init(head: Node?) {
+            current = head
+        }
+    }
+
+    public func makeIterator() -> Iterator {
+        return Iterator(head: head)
     }
 }
 
@@ -192,7 +212,10 @@ extension LinkedList.Node {
 
 // MARK: - Testing
 
-var list: LinkedList = [0, 1, 2, 3]
+var list: LinkedList = [0,1,2,3,4,5,6,7,8,9]
+for e in list {
+    print(e)
+}
 list.reverse()
 list.append(-1)
 // list[-1]
