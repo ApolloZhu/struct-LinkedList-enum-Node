@@ -159,10 +159,11 @@ extension LinkedList {
     }
 
     private func append(_ current: Node, newNode: Node) -> Node {
-        if let next = current.next {
-            return .node(value: current.value, next: append(next, newNode: newNode))
-        } else {
-            return .node(value: current.value, next: newNode)
+        switch current {
+        case let .node(value: value, next: next):
+            return .node(value: value, next: append(next, newNode: newNode))
+        case let .value(value):
+            return .node(value: value, next: newNode)
         }
     }
 }
