@@ -12,7 +12,6 @@ final class LinkedListTests: XCTestCase {
         ]
         XCTAssertEqual(nodes.description, "[Wow, Hello, World]")
         XCTAssertEqual(nodes.debugDescription, #"["Wow", "Hello", "World"]"#)
-
         /*
          var list: LinkedList = [0,1,2,3,4,5,6,7,8,9]
          list.description
@@ -25,27 +24,31 @@ final class LinkedListTests: XCTestCase {
          list.reverse()
          list.append(-1)
          list.count
-         // list[-1]
-         // list[-1] = 0
-         list[0]
-         list[0] = 5
-         list[1]
-         list[1] = 6
-         list[2]
-         list[2] = 7
-         list[3]
-         list[3] = 8
-         list[4]
-         list[4] = 9
-         // list[5]
-         // list[5] = 0
-         list
-         list.count
-         list.underestimatedCount
          */
     }
 
-    func testCount() {
+    func testSubscript() {
+        var list: LinkedList = [0,1,2,3,4,5,6,7,8,9]
+        list.reverse()
+        list.append(-1)
+        // list[-1]
+        // list[-1] = 0
+        XCTAssertEqual(list[0], 9)
+        list[0] = 5
+        XCTAssertEqual(list[1], 8)
+        list[1] = 6
+        XCTAssertEqual(list[2], 7)
+        list[2] = 7
+        XCTAssertEqual(list[3], 6)
+        list[3] = 8
+        XCTAssertEqual(list[4], 5)
+        list[4] = 9
+        // list[5]
+        // list[5] = 0
+        XCTAssertEqual(list, [5,6,7,8,9,4,3,2,1,0,-1] as LinkedList)
+    }
+
+    func testSubrange() {
         var list: LinkedList = [0,1,2,3,4,5,6,7,8,9]
         XCTAssertEqual(list.count, 10)
 
@@ -91,6 +94,8 @@ final class LinkedListTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testExample", testToString),
+        ("testToString", testToString),
+        ("testSubscript", testSubscript),
+        ("testSubrange", testSubrange),
     ]
 }

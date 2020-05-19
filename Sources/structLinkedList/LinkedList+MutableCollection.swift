@@ -27,12 +27,10 @@ extension LinkedList: MutableCollection {
             return .value(newValue)
         }
         if i == 0 {
-            if case .node(_, next: let next) = current {
-                return .node(value: newValue, next: next)
-            }
-            return .value(newValue)
+            return .auto(value: newValue, next: current.next)
         } else if i > 0 {
-            return .node(value: current.value, next: set(i - 1, to: newValue, current: current.next))
+            return .node(value: current.value,
+                         next: set(i - 1, to: newValue, current: current.next))
         } else {
             indexOutOfRange()
         }

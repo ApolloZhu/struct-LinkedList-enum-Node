@@ -48,9 +48,7 @@ extension LinkedList: RangeReplaceableCollection {
             guard let first = reversed.first else {
                 return after
             }
-            var newElementHead: Node = after
-                .map { .node(value: first, next: $0) }
-                ?? .value(first)
+            var newElementHead: Node = .auto(value: first, next: after)
             for element in reversed.dropFirst() {
                 newElementHead = .node(value: element, next: newElementHead)
             }
@@ -65,9 +63,7 @@ extension LinkedList: RangeReplaceableCollection {
             // the indices must be valid (and thus have an element)
             if i < replacedRange.startIndex {
                 // 1. insert the parts before, including self value
-                return getNodeAfter() // current must exist, Never otherwise
-                    .map { .node(value: current!.value, next: $0) }
-                    ?? .value(current!.value)
+                return .auto(value: current!.value, next: getNodeAfter())
             } else {
                 // 2. skip self value until part 2 begins
                 return getNodeAfter()

@@ -1,4 +1,15 @@
 extension LinkedList.Node {
+    @inlinable
+    static func auto(value: @autoclosure () -> Element,
+                     next: LinkedList.Node? = .none) -> LinkedList.Node {
+        if let next = next {
+            return .node(value: value(), next: next)
+        } else {
+            return .value(value())
+        }
+    }
+
+    @inlinable
     internal var value: Element {
         get {
             switch self {
@@ -9,14 +20,11 @@ extension LinkedList.Node {
             }
         }
         set {
-            if case .node(_, next: let next) = self {
-                self = .node(value: newValue, next: next)
-            } else {
-                self = .value(newValue)
-            }
+            self = .auto(value: newValue, next: next)
         }
     }
-    
+
+    @inlinable
     internal var next: LinkedList.Node? {
         get {
             if case .node(_, next: let next) = self {
@@ -24,12 +32,8 @@ extension LinkedList.Node {
             }
             return nil
         }
-        set {
-            if let newNext = newValue {
-                self = .node(value: value, next: newNext)
-            } else {
-                self = .value(value)
-            }
+        set(newNext) {
+            self = .auto(value: value, next: newNext)
         }
     }
 }
