@@ -12,7 +12,7 @@ extension LinkedList: RangeReplaceableCollection {
     ) where S.Element == Element {
         // Basic idea is that for this:
         //
-        // [part 1] [old elements to remove] [new elements to insert] [part 2]
+        // [part 1] [L. old elements] [C. new elements] [part 2]
         //
         // to happen in an O(m + n) complexity, we'll
         //
@@ -64,28 +64,28 @@ extension LinkedList: RangeReplaceableCollection {
             // we don't need to validate the indices/current node
             // since we reached here no problem
             return current
-        case ..<part1End:
-            // insert the parts before
-            // skip until part 2 begins
-            guard let current = current else {
-                indexOutOfRange()
-            }
-            guard let after = insert(
-                reversed: reversed,
-                startingAt: part1End, resumeOriginalAt: part2Start,
-                current: current.next, i: i+1)
-                else { return .value(current.value) }
-            return .node(value: current.value, next: after)
         default:
-            // skip until part 2 begins
+            // for either part 1 to keep or old elements to remove
+            // the indices must be valid (and thus have an element)
             guard let current = current else {
                 indexOutOfRange()
             }
-            return insert(
+            let after = insert(
                 reversed: reversed,
                 startingAt: part1End, resumeOriginalAt: part2Start,
                 current: current.next, i: i+1
             )
+            if i < part1End {
+                // 1. insert the parts before, including self value
+                if let next = after {
+                    return .node(value: current.value, next: next)
+                } else {
+                    return .value(current.value)
+                }
+            } else {
+                // 2. skip self value until part 2 begins
+                return after
+            }
         }
     }
 
