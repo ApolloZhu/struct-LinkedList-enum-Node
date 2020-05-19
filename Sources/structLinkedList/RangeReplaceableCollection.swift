@@ -29,15 +29,15 @@ extension LinkedList: RangeReplaceableCollection {
 
     private func insert(reversed: [Element],
                         replacedRange: Range<Int>,
-                        current: Node?, i: Int = 0) -> Node? {
+                        current: Node?, _ i: Int = 0) -> Node? {
         func getNodeAfter() -> Node? {
             guard let current = current else {
                 indexOutOfRange()
             }
             return insert(
-                reversed: [],
+                reversed: reversed,
                 replacedRange: replacedRange,
-                current: current.next, i: i + 1
+                current: current.next, i + 1
             )
         }
 
@@ -65,11 +65,9 @@ extension LinkedList: RangeReplaceableCollection {
             // the indices must be valid (and thus have an element)
             if i < replacedRange.startIndex {
                 // 1. insert the parts before, including self value
-                if let next = getNodeAfter() {
-                    return .node(value: current.value, next: next)
-                } else {
-                    return .value(current.value)
-                }
+                return getNodeAfter() // current must exist, Never otherwise
+                    .map { .node(value: current!.value, next: $0) }
+                    ?? .value(current!.value)
             } else {
                 // 2. skip self value until part 2 begins
                 return getNodeAfter()
