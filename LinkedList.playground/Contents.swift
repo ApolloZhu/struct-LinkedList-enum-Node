@@ -144,6 +144,24 @@ extension LinkedList: MutableCollection {
     }
 }
 
+extension LinkedList {
+    mutating func append(_ newElement: Element) {
+        guard let head = head else {
+            self.head = .value(newElement)
+            return
+        }
+        self.head = append(head, newNode: .value(newElement))
+    }
+
+    private func append(_ current: Node, newNode: Node) -> Node {
+        if let next = current.next {
+            return .node(value: current.value, next: append(next, newNode: newNode))
+        } else {
+            return .node(value: current.value, next: newNode)
+        }
+    }
+}
+
 // MARK: - Reverse
 
 extension LinkedList {
@@ -170,4 +188,4 @@ extension LinkedList.Node {
 
 var list: LinkedList = [0, 1, 2, 3]
 list.reverse()
-list.reversed()
+list.append(-1)
