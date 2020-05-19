@@ -125,21 +125,26 @@ extension LinkedList: MutableCollection {
             yield cur.value
         }
         set(newValue) {
-            if position < 0 {
+            self.head = set(position, to: newValue, current: head)
+        }
+    }
+
+    private func set(_ i: Int, to newValue: Element, current: Node?) -> Node {
+        guard let current = current else {
+            guard i == 1 else {
                 indexOutOfRange()
             }
-            if position == 0 {
-                if let oldHead = head {
-                    head = .node(value: newValue, next: oldHead)
-                } else {
-                    head = .value(newValue)
-                }
-                return
+            return .value(newValue)
+        }
+        if i == 0 {
+            if case .node(_, next: let next) = current {
+                return .node(value: newValue, next: next)
             }
-            guard var cur = head else {
-                indexOutOfRange()
-            }
-            #warning("NOT IMPLEMENTED")
+            return .value(newValue)
+        } else if i > 0 {
+            return .node(value: current.value, next: set(i - 1, to: newValue, current: current.next))
+        } else {
+            indexOutOfRange()
         }
     }
 }
@@ -170,9 +175,9 @@ extension LinkedList {
         self.head = reversed(next, previous: .value(head.value))
     }
 
-    private func reversed(_ node: Node, previous: Node) -> Node {
-        let now = Node.node(value: node.value, next: previous)
-        if let next = node.next {
+    private func reversed(_ current: Node, previous: Node) -> Node {
+        let now = Node.node(value: current.value, next: previous)
+        if let next = current.next {
             return reversed(next, previous: now)
         } else {
             return now
@@ -189,3 +194,19 @@ extension LinkedList.Node {
 var list: LinkedList = [0, 1, 2, 3]
 list.reverse()
 list.append(-1)
+// list[-1]
+// list[-1] = 0
+list[0]
+list[0] = 5
+list[1]
+list[1] = 6
+list[2]
+list[2] = 7
+list[3]
+list[3] = 8
+list[4]
+list[4] = 9
+// list[5]
+// list[5] = 0
+list.count
+list
