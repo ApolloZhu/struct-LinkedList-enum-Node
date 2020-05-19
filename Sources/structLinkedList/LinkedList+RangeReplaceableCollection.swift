@@ -30,7 +30,7 @@ extension LinkedList: RangeReplaceableCollection {
     private func insert(reversed: [Element],
                         replacedRange: Range<Int>,
                         current: Node?, _ i: Int = 0) -> Node? {
-        func getNodeAfter() -> Node? {
+        func recurseForNodeAfter() -> Node? {
             guard let current = current else {
                 indexOutOfRange()
             }
@@ -43,7 +43,8 @@ extension LinkedList: RangeReplaceableCollection {
         
         switch i {
         case replacedRange.lowerBound:
-            let after = replacedRange.isEmpty ? current : getNodeAfter()
+            // if there's nothing to remove, current is part 2 head
+            let after = replacedRange.isEmpty ? current : recurseForNodeAfter()
             // add in elements from the newElements
             guard let first = reversed.first else {
                 return after
@@ -58,16 +59,13 @@ extension LinkedList: RangeReplaceableCollection {
             // we don't need to validate the indices/current node
             // since we reached here no problem
             return current
+        case ..<replacedRange.startIndex:
+            // 1. insert the parts before, including self value
+            // value is a thunk so we are safe force unwrapping there
+            return .auto(value: current!.value, next: recurseForNodeAfter())
         default:
-            // for either part 1 to keep or old elements to remove
-            // the indices must be valid (and thus have an element)
-            if i < replacedRange.startIndex {
-                // 1. insert the parts before, including self value
-                return .auto(value: current!.value, next: getNodeAfter())
-            } else {
-                // 2. skip self value until part 2 begins
-                return getNodeAfter()
-            }
+            // 2. skip this current value/node until part 2 begins
+            return recurseForNodeAfter()
         }
     }
     

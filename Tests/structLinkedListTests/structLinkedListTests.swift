@@ -12,18 +12,14 @@ final class LinkedListTests: XCTestCase {
         ]
         XCTAssertEqual(nodes.description, "[Wow, Hello, World]")
         XCTAssertEqual(nodes.debugDescription, #"["Wow", "Hello", "World"]"#)
+        let list: LinkedList = [0,1,2,3,4,5,6,7,8,9]
+        XCTAssertEqual(list.description, "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]")
+        XCTAssertEqual(list.debugDescription, "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]")
         /*
-         var list: LinkedList = [0,1,2,3,4,5,6,7,8,9]
-         list.description
-         list.debugDescription
-         list.count
          list.reversed()
          for e in list {
          print(e)
          }
-         list.reverse()
-         list.append(-1)
-         list.count
          */
     }
 
