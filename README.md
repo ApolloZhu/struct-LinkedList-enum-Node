@@ -16,7 +16,10 @@ public struct LinkedList<Element> {
  - [ ] CustomDebugStringConvertible
  - [ ] CustomReflectable
  - [x] CustomStringConvertible
- - [ ] CVarArg
+ - [x] ~~CVarArg~~ 
+    ```
+    Declaring conformance to the CVarArg protocol for types defined outside the standard library is not supported.
+    ```
  - [ ] Decodable when Element conforms to Decodable.
  - [ ] Encodable when Element conforms to Encodable.
  - [ ] Equatable when Element conforms to Equatable.
