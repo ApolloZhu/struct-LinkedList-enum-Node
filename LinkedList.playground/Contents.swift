@@ -168,5 +168,6 @@ extension LinkedList.Node {
 
 // MARK: - Testing
 
-let list: LinkedList = [0, 1, 2, 3]
+var list: LinkedList = [0, 1, 2, 3]
+list.reverse()
 list.reversed()
