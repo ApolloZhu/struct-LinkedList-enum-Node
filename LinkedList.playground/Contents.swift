@@ -1,15 +1,17 @@
-struct LinkedList<Element> {
+public struct LinkedList<Element> {
     fileprivate enum Node {
         case value(Element)
         indirect case node(value: Element, next: Node)
     }
     private var head: Node? = nil
+
+    public init() { }
 }
 
 // MARK: - Node Accessor
 
 extension LinkedList.Node {
-    var value: Element {
+    fileprivate var value: Element {
         get {
             switch self {
             case .node(let value, next: _):
@@ -27,7 +29,7 @@ extension LinkedList.Node {
         }
     }
 
-    var next: LinkedList.Node? {
+    fileprivate var next: LinkedList.Node? {
         get {
             if case .node(_, next: let next) = self {
                 return next
@@ -44,16 +46,16 @@ extension LinkedList.Node {
     }
 }
 
-// MARK - CustomStringConvertible
+// MARK: - CustomStringConvertible
 
 extension LinkedList: CustomStringConvertible {
-    var description: String {
+    public var description: String {
         return "[\(head?.description ?? "")]"
     }
 }
 
 extension LinkedList.Node: CustomStringConvertible {
-    var description: String {
+    fileprivate var description: String {
         if let next = next {
             return "\(value), \(next.description)"
         } else {
@@ -62,18 +64,34 @@ extension LinkedList.Node: CustomStringConvertible {
     }
 }
 
+// MARK: - Array Literal
+
+extension LinkedList: ExpressibleByArrayLiteral {
+    public init(arrayLiteral elements: Element...) {
+        guard !elements.isEmpty else {
+            return
+        }
+        let reversed = elements.reversed()
+        var cur = Node.value(reversed.first!)
+        for value in reversed.dropFirst() {
+            cur = .node(value: value, next: cur)
+        }
+        head = cur
+    }
+}
+
 // MARK: - Collection
 
 extension LinkedList: Collection {
-    var startIndex: Int {
+    public var startIndex: Int {
         return 0
     }
 
-    var endIndex: Int {
+    public var endIndex: Int {
         return head?.count ?? 0
     }
 
-    func index(after i: Int) -> Int {
+    public func index(after i: Int) -> Int {
         return i + 1
     }
 
@@ -83,7 +101,7 @@ extension LinkedList: Collection {
 }
 
 extension LinkedList.Node {
-    var count: Int {
+    fileprivate var count: Int {
         return (next?.count ?? 0) + 1
     }
 }
@@ -91,7 +109,7 @@ extension LinkedList.Node {
 // MARK: - MutableCollection
 
 extension LinkedList: MutableCollection {
-    subscript(position: Int) -> Element {
+    public subscript(position: Int) -> Element {
         _read {
             guard var cur = head else {
                 indexOutOfRange()
@@ -127,7 +145,7 @@ extension LinkedList: MutableCollection {
 }
 
 extension LinkedList {
-    mutating func reverse() {
+    public mutating func reverse() {
         guard let head = head, let next = head.next else { return }
         self.head = reversed(next, previous: .value(head.value))
     }
@@ -141,3 +159,5 @@ extension LinkedList {
         }
     }
 }
+
+let list: LinkedList = [0, 1, 2, 3]
