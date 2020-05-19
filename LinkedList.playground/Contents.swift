@@ -4,6 +4,7 @@ public struct LinkedList<Element> {
         indirect case node(value: Element, next: Node)
     }
     private var head: Node? = nil
+    public private(set) var count: Int = 0
 
     public init() { }
 }
@@ -77,6 +78,7 @@ extension LinkedList: ExpressibleByArrayLiteral {
             cur = .node(value: value, next: cur)
         }
         head = cur
+        count = elements.count
     }
 }
 
@@ -88,7 +90,7 @@ extension LinkedList: Collection {
     }
 
     public var endIndex: Int {
-        return head?.count ?? 0
+        return count
     }
 
     public func index(after i: Int) -> Int {
@@ -117,12 +119,6 @@ extension LinkedList: Collection {
 
     public func makeIterator() -> Iterator {
         return Iterator(head: head)
-    }
-}
-
-extension LinkedList.Node {
-    fileprivate var count: Int {
-        return (next?.count ?? 0) + 1
     }
 }
 
@@ -176,6 +172,7 @@ extension LinkedList {
             return
         }
         self.head = append(head, newNode: .value(newElement))
+        count += 1
     }
 
     private func append(_ current: Node, newNode: Node) -> Node {
@@ -213,11 +210,14 @@ extension LinkedList.Node {
 // MARK: - Testing
 
 var list: LinkedList = [0,1,2,3,4,5,6,7,8,9]
+list.count
+list.reversed()
 for e in list {
     print(e)
 }
 list.reverse()
 list.append(-1)
+list.count
 // list[-1]
 // list[-1] = 0
 list[0]
@@ -232,5 +232,5 @@ list[4]
 list[4] = 9
 // list[5]
 // list[5] = 0
-list.count
 list
+list.count
