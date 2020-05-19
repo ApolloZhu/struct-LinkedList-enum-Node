@@ -22,32 +22,28 @@ extension LinkedList: RangeReplaceableCollection {
         // 3. (implicitly) copy elements from part 1 reversely
         let reversed = newElements.reversed()
         self.head = insert(reversed: reversed,
-                           startingAt: subrange.lowerBound,
-                           resumeOriginalAt: subrange.upperBound,
+                           replacedRange: subrange,
                            current: head)
         self.count += reversed.count - subrange.count
     }
 
     private func insert(reversed: [Element],
-                        startingAt part1End: Int,
-                        resumeOriginalAt part2Start: Int,
+                        replacedRange: Range<Int>,
                         current: Node?, i: Int = 0) -> Node? {
-        switch i {
-        case part1End:
-            let after: Node?
-            // skip
-            if part2Start == part1End {
-                after = current
-            } else {
-                guard let current = current else {
-                    indexOutOfRange()
-                }
-                after = insert(
-                    reversed: [],
-                    startingAt: part1End, resumeOriginalAt: part2Start,
-                    current: current.next, i: i + 1
-                )
+        func getNodeAfter() -> Node? {
+            guard let current = current else {
+                indexOutOfRange()
             }
+            return insert(
+                reversed: [],
+                replacedRange: replacedRange,
+                current: current.next, i: i + 1
+            )
+        }
+
+        switch i {
+        case replacedRange.lowerBound:
+            let after = replacedRange.isEmpty ? current : getNodeAfter()
             // add in elements from the newElements
             guard let first = reversed.first else {
                 return after
@@ -59,7 +55,7 @@ extension LinkedList: RangeReplaceableCollection {
                 newElementHead = .node(value: element, next: newElementHead)
             }
             return newElementHead
-        case part2Start...:
+        case replacedRange.upperBound...:
             // get the part after the replacement range
             // we don't need to validate the indices/current node
             // since we reached here no problem
@@ -67,24 +63,16 @@ extension LinkedList: RangeReplaceableCollection {
         default:
             // for either part 1 to keep or old elements to remove
             // the indices must be valid (and thus have an element)
-            guard let current = current else {
-                indexOutOfRange()
-            }
-            let after = insert(
-                reversed: reversed,
-                startingAt: part1End, resumeOriginalAt: part2Start,
-                current: current.next, i: i+1
-            )
-            if i < part1End {
+            if i < replacedRange.startIndex {
                 // 1. insert the parts before, including self value
-                if let next = after {
+                if let next = getNodeAfter() {
                     return .node(value: current.value, next: next)
                 } else {
                     return .value(current.value)
                 }
             } else {
                 // 2. skip self value until part 2 begins
-                return after
+                return getNodeAfter()
             }
         }
     }
