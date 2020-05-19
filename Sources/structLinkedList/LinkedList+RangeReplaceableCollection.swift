@@ -10,16 +10,6 @@ extension LinkedList: RangeReplaceableCollection {
         _ subrange: Range<Int>,
         with newElements: __owned S
     ) where S.Element == Element {
-        // Basic idea is that for this:
-        //
-        // [part 1] [L. old elements] [C. new elements] [part 2]
-        //
-        // to happen in an O(m + n) complexity, we'll
-        //
-        // 1. reach the head of part 2, and return
-        // 2. insert elements from new elements reversly
-        //    (can improve performance by checking RandomAccess/Bidirectional)
-        // 3. (implicitly) copy elements from part 1 reversely
         let reversed = newElements.reversed()
         self.head = insert(reversed: reversed,
                            replacedRange: subrange,
@@ -30,23 +20,25 @@ extension LinkedList: RangeReplaceableCollection {
     private func insert(reversed: [Element],
                         replacedRange: Range<Int>,
                         current: Node?, _ i: Int = 0) -> Node? {
-        func recurseForNodeAfter() -> Node? {
+        func recurseForNodeAfter(
+            then map: (Node, Node?) -> Node? = { _, after in after }
+        ) -> Node? {
             guard let current = current else {
                 indexOutOfRange()
             }
-            return insert(
+            return map(current, insert(
                 reversed: reversed,
                 replacedRange: replacedRange,
                 current: current.next, i + 1
-            )
+            ))
         }
         
         switch i {
         case replacedRange.lowerBound:
-            // MARK: Step 1: locate the insertion point
+            // MARK: Step 1: found the insertion point, recurse until part 2
             // current is the part 2 head if there's nothing to remove
             let after = replacedRange.isEmpty ? current : recurseForNodeAfter()
-            // add in elements from the reversed array of new elements
+            // MARK: Step 4: reversely append newElements in front of part 2
             guard let first = reversed.first else {
                 return after
             }
@@ -64,9 +56,11 @@ extension LinkedList: RangeReplaceableCollection {
             // since we reached here no problem
             return current
         default: // case ..<replacedRange.lowerBound:
-            // MARK: Step 4: inserts back the parts before insertion point
-            // value is a thunk so we are safe force unwrapping there
-            return .auto(value: current!.value, next: recurseForNodeAfter())
+            // MARK: Step 0: recurse until insertion point
+            return recurseForNodeAfter { current, after in
+                // MARK: Step 5: insert back the part before insertion point
+                .auto(value: current.value, next: after)
+            }
         }
     }
     
@@ -75,7 +69,7 @@ extension LinkedList: RangeReplaceableCollection {
         insert(newElement, at: endIndex)
     }
     
-    /// - Complexity: O(m + n) where |S| = m and |self| = n
+    /// - Complexity: O(m + n) where m = S.count
     public mutating func append<S: Sequence>(
         contentsOf newElements: __owned S
     ) where S.Element == Element {

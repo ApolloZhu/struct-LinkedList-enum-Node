@@ -1,11 +1,11 @@
 extension LinkedList.Node {
     @inlinable
-    static func auto(value: @autoclosure () -> Element,
-                     next: LinkedList.Node? = .none) -> LinkedList.Node {
+    static func auto(value: Element,
+                     next: LinkedList.Node? = nil) -> LinkedList.Node {
         if let next = next {
-            return .node(value: value(), next: next)
+            return .node(value: value, next: next)
         } else {
-            return .value(value())
+            return .value(value)
         }
     }
 
