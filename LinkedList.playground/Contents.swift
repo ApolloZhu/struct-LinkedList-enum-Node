@@ -49,19 +49,39 @@ extension LinkedList.Node {
 
 // MARK: - CustomStringConvertible
 
-extension LinkedList: CustomStringConvertible {
+extension LinkedList: CustomStringConvertible, CustomDebugStringConvertible {
     public var description: String {
         return "[\(head?.description ?? "")]"
     }
+
+    public var debugDescription: String {
+        return "[\(head?.debugDescription ?? "")]"
+    }
 }
 
-extension LinkedList.Node: CustomStringConvertible {
+extension LinkedList.Node: CustomStringConvertible, CustomDebugStringConvertible {
     fileprivate var description: String {
-        if let next = next {
+        // Actually, Swift Array uses debugDescription for description...
+        // I guess that's understandable, but no thanks.
+        switch self {
+        case let .node(value: value, next: next):
             return "\(value), \(next.description)"
-        } else {
+        case let .value(value):
             return "\(value)"
         }
+    }
+
+    fileprivate var debugDescription: String {
+        // Mimic _makeCollectionDescription from ArrayShared.swift
+        var result = ""
+        switch self {
+        case let .node(value: value, next: next):
+            debugPrint(value, terminator: "", to: &result)
+            result += ", " + next.debugDescription
+        case let .value(value):
+            debugPrint(value, terminator: "", to: &result)
+        }
+        return result
     }
 }
 
@@ -213,7 +233,16 @@ extension LinkedList.Node {
 
 // MARK: - Testing
 
+private var nodes: LinkedList<LinkedList<String>.Node> = [
+    .value("Wow"),
+    .node(value: "Hello", next: .value("World"))
+]
+nodes.description
+nodes.debugDescription
+
 var list: LinkedList = [0,1,2,3,4,5,6,7,8,9]
+list.description
+list.debugDescription
 list.count
 list.reversed()
 for e in list {

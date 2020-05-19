@@ -13,10 +13,10 @@ public struct LinkedList<Element> {
 
 ## Road Map
 
- - [ ] CustomDebugStringConvertible
+ - [x] CustomDebugStringConvertible
  - [ ] CustomReflectable
  - [x] CustomStringConvertible
- - [x] ~~CVarArg~~ 
+ - [x] ~~CVarArg~~
     ```
     Declaring conformance to the CVarArg protocol for types defined outside the standard library is not supported.
     ```
