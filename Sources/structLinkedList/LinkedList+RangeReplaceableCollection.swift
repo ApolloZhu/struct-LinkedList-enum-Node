@@ -43,9 +43,10 @@ extension LinkedList: RangeReplaceableCollection {
         
         switch i {
         case replacedRange.lowerBound:
-            // if there's nothing to remove, current is part 2 head
+            // MARK: Step 1: locate the insertion point
+            // current is the part 2 head if there's nothing to remove
             let after = replacedRange.isEmpty ? current : recurseForNodeAfter()
-            // add in elements from the newElements
+            // add in elements from the reversed array of new elements
             guard let first = reversed.first else {
                 return after
             }
@@ -54,18 +55,18 @@ extension LinkedList: RangeReplaceableCollection {
                 newElementHead = .node(value: element, next: newElementHead)
             }
             return newElementHead
+        case replacedRange:
+            // MARK: Step 2: skip this current value/node until part 2 begins
+            return recurseForNodeAfter()
         case replacedRange.upperBound...:
-            // get the part after the replacement range
+            // MARK: Step 3: get the part after the replacement range
             // we don't need to validate the indices/current node
             // since we reached here no problem
             return current
-        case ..<replacedRange.startIndex:
-            // 1. insert the parts before, including self value
+        default: // case ..<replacedRange.lowerBound:
+            // MARK: Step 4: inserts back the parts before insertion point
             // value is a thunk so we are safe force unwrapping there
             return .auto(value: current!.value, next: recurseForNodeAfter())
-        default:
-            // 2. skip this current value/node until part 2 begins
-            return recurseForNodeAfter()
         }
     }
     
