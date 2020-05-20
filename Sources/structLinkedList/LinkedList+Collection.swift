@@ -1,4 +1,4 @@
-extension LinkedList: Collection {
+extension LinkedList {
     public var indices: Range<Int> {
         return startIndex..<endIndex
     }

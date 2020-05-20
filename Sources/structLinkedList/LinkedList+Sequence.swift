@@ -1,4 +1,4 @@
-extension LinkedList: Sequence {
+extension LinkedList {
     /// Iterates over a linked list by following the link to
     /// ensure O(n) complexity iterations.
     public struct Iterator: IteratorProtocol {
