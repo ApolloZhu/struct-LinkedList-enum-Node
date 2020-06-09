@@ -11,6 +11,8 @@ public struct LinkedList<Element> {
 }
 ```
 
+And this, of course, is not a new idea. It has been explored in posts like [What are indirect enums?](https://www.hackingwithswift.com/example-code/language/what-are-indirect-enums) or [Swift Algorithm Club: Swift Binary Search Tree Data Structure](https://www.raywenderlich.com/990-swift-algorithm-club-swift-binary-search-tree-data-structure#toc-anchor-011). But I only saw them after writing all the code ヽ(￣～￣)ノ Anyways, good linked list practice, I guess.
+
 ## Road Map
 
  - [x] CustomDebugStringConvertible
